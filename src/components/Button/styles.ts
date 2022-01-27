@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components/native'
 import { RectButton } from 'react-native-gesture-handler'
-import { TouchableOpacity } from 'react-native';
+
 
 
 export type TypeProps = 'primary' | 'secondary';
@@ -9,7 +9,7 @@ type ContainerProps = {
     type: TypeProps;
 }
 
-export const Container = styled(RectButton)`
+export const Container = styled(RectButton) <ContainerProps>`
     flex: 1;
     max-height: 56px;
     min-height: 56px;
@@ -17,7 +17,7 @@ export const Container = styled(RectButton)`
     justify-content: center;
     align-items: center;
 
-    
+    background-color: ${({ theme, type }) => type === 'primary' ? theme.COLORS.PRIMARY_900 : theme.COLORS.PRIMARY_800};
 `;
 
 export const Title = styled.Text`

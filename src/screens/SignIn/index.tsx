@@ -47,7 +47,7 @@ export function SignIn() {
                     <Button
                         title='Entrar'
                         type='secondary'
-                        onPress={() => handleSignIn()}
+                        onPress={handleSignIn}
                         isLoading={isLogging}
                     />
                 </Content>
