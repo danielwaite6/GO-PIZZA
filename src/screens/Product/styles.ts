@@ -1,5 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import styled, { css } from 'styled-components/native'
+import { Button } from '../../components/Button';
 
 
 export const Container = styled.KeyboardAvoidingView`
@@ -14,7 +15,7 @@ export const Header = styled(LinearGradient).attrs(({ theme }) => ({
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    
+    padding: 3px 15px;
 `;
 
 export const Title = styled.Text`
@@ -31,4 +32,17 @@ export const DeleteLabel = styled.Text`
         font-family: ${theme.FONTS.TEXT};
         color: ${theme.COLORS.TITLE};
     `};
+`;
+
+export const Upload = styled.View`
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 32px 0;
+`;
+
+export const PickImageButton = styled(Button)`
+    max-width: 90px;
+    margin-left: 32px;
 `;
