@@ -8,8 +8,7 @@ import theme from './src/theme';
 import { SignIn } from './src/screens/SignIn';
 import { AuthProvider } from './src/hooks/auth';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Product } from './src/screens/Product';
-import { Home } from './src/screens/Home';
+import { Routes } from './src/routes';
 
 
 export default function App() {
@@ -29,7 +28,7 @@ export default function App() {
         <StatusBar style="light" translucent backgroundColor='transparent' />
         <AuthProvider>
 
-          <Home />
+          <Routes />
 
         </AuthProvider>
       </ThemeProvider>
