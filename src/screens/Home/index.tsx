@@ -84,7 +84,7 @@ export function Home() {
             />
             <MenuHeader>
                 <Title>Cardápio</Title>
-                <MenuItemNumber>10 pizzas</MenuItemNumber>
+                <MenuItemNumber>{pizzas.length} pizzas</MenuItemNumber>
             </MenuHeader>
 
             <FlatList

@@ -95,8 +95,11 @@ export function Product() {
                 photo_url,
                 photo_path: reference.fullPath,
             })
-            .then(() => Alert.alert('Cadastro', 'Pizza cadastrada com sucesso.'))
-            .catch(() => Alert.alert('Cadastro', 'Nçao foi possivel cadastrar a Pizza.'))
+            .then(() => navigation.navigate('home'))
+            .catch(() => {
+                setIsLoading(false);
+                Alert.alert('Cadastro', 'Não foi possivel cadastrar a Pizza.')
+            })
 
         setIsLoading(false);
 
