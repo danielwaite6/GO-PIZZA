@@ -15,8 +15,6 @@ export function SignIn() {
 
     function handleSignIn() {
         signIn(email, password);
-        console.warn('oi');
-
     }
 
     function handleForgotPassword() {

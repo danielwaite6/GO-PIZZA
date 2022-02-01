@@ -14,7 +14,7 @@ import { ProductCard, ProductProps } from '../../components/ProductCard';
 
 export function Home() {
 
-    const { signOut } = useAuth();
+    const { signOut, user } = useAuth();
 
     const [pizzas, setPizzas] = useState<ProductProps[]>([]);
     const [search, setSearch] = useState('');
@@ -54,7 +54,8 @@ export function Home() {
     };
 
     function handleOpen(id: string) {
-        navigation.navigate('product', { id });
+        const route = user?.isAdmin ? 'product' : 'order';
+        navigation.navigate(route, { id });
     };
 
     function handleAdd() {
@@ -107,12 +108,15 @@ export function Home() {
                     marginHorizontal: 24
                 }}
             />
+            {
+                user?.isAdmin &&
+                <NewProductButton
+                    title='Cadastrar Pizza'
+                    type='primary'
+                    onPress={handleAdd}
+                />
+            }
 
-            <NewProductButton
-                title='Cadastrar Pizza'
-                type='primary'
-                onPress={handleAdd}
-            />
 
 
         </Container>

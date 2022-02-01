@@ -1,29 +1,66 @@
-import React, { useState } from 'react';
-import { Platform, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Platform, ScrollView } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 import { ButtonBack } from '../../components/ButtonBack';
 import { RadioButton } from '../../components/RadioButton';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { PIZZA_TYPES } from '../../utils/pizzaTypes';
+import { OrderNavigationProps } from '../../../src/@types/navigation';
 
 import {
-    Container, Form, FormRow, Header, InputGroup, Label, Photo, Price, Sizes, Title, ContentScroll
+    Container, Form, FormRow, Header, InputGroup, Label, Photo, Price, Sizes, Title
 } from './styles';
+import { ProductProps } from '../../components/ProductCard';
+
+type PizzaResponse = ProductProps & {
+    price_sizes: {
+        [key: string]: number;
+    }
+}
 
 
 export function Order() {
-
     const [size, setSize] = useState('');
+    const [pizza, setPizza] = useState<PizzaResponse>({} as PizzaResponse);
+    const [quantity, setQuantity] = useState(0);
+    const [tableNumber, setTableNumber] = useState('');
+
+    const navigation = useNavigation();
+
+    const route = useRoute();
+
+    const { id } = route.params as OrderNavigationProps;
+
+    const amount = size ? pizza.price_sizes[size] * quantity : '0,00';
+
+    useEffect(() => {
+        if (id) {
+            firestore()
+                .collection('pizzas')
+                .doc(id)
+                .get()
+                .then((response) => setPizza(response.data() as PizzaResponse))
+                .catch(() => Alert.alert('Pedido', 'Não foi possivel carregar o produto.'))
+        }
+    }, [id])
+
+
+
+    function handleGoBack() {
+        navigation.goBack()
+    }
 
     return (
         <Container behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
             <ScrollView>
                 <Header>
-                    <ButtonBack onPress={() => { }} style={{ marginBottom: -70 }} />
+                    <ButtonBack onPress={handleGoBack} style={{ marginBottom: -70 }} />
                 </Header>
-                <Photo source={{ uri: 'http://github.com/danielwaite6.png' }} />
+                <Photo source={{ uri: pizza.photo_url }} />
                 <Form>
-                    <Title>Nome da Pizza</Title>
+                    <Title>{pizza.name}</Title>
                     <Label>Selecione um Tamanho</Label>
                     <Sizes>
                         {
@@ -41,16 +78,16 @@ export function Order() {
                     <FormRow>
                         <InputGroup>
                             <Label>Número da Mesa</Label>
-                            <Input keyboardType='numeric' />
+                            <Input keyboardType='numeric' onChangeText={setTableNumber} />
                         </InputGroup>
 
                         <InputGroup>
                             <Label>Quantidade</Label>
-                            <Input keyboardType='numeric' />
+                            <Input keyboardType='numeric' onChangeText={(val) => setQuantity(Number(val))} />
                         </InputGroup>
                     </FormRow>
 
-                    <Price>Valor de R$ 00,00</Price>
+                    <Price>Valor de R$ {amount}</Price>
                     <Button title='Confirmar Pedido' />
                 </Form>
             </ScrollView>
