@@ -13,6 +13,8 @@ import {
     Container, Form, FormRow, Header, InputGroup, Label, Photo, Price, Sizes, Title
 } from './styles';
 import { ProductProps } from '../../components/ProductCard';
+import { UserTabRoutes } from '../../routes/user.tab.routes';
+import { useAuth } from '../../hooks/auth';
 
 type PizzaResponse = ProductProps & {
     price_sizes: {
@@ -26,10 +28,12 @@ export function Order() {
     const [pizza, setPizza] = useState<PizzaResponse>({} as PizzaResponse);
     const [quantity, setQuantity] = useState(0);
     const [tableNumber, setTableNumber] = useState('');
+    const [sendingOrder, setSendingOrder] = useState(false);
 
     const navigation = useNavigation();
 
     const route = useRoute();
+    const { user } = useAuth();
 
     const { id } = route.params as OrderNavigationProps;
 
@@ -50,6 +54,39 @@ export function Order() {
 
     function handleGoBack() {
         navigation.goBack()
+    };
+
+    async function handleOrder() {
+        if (!size) {
+            return Alert.alert('Pedido', 'Selecione o tamanho da pizza.')
+        }
+
+        if (!tableNumber) {
+            return Alert.alert('Pedido', 'Informe o número da mesa.')
+        }
+
+        if (!quantity) {
+            return Alert.alert('Pedido', 'Informe a quantidade.')
+        }
+
+        setSendingOrder(true);
+
+        firestore()
+            .collection('orders')
+            .add({
+                quantity,
+                amount,
+                pizza: pizza.name,
+                table_number: tableNumber,
+                status: 'Preparando',
+                waiter_id: user?.id,
+                image: pizza.photo_url,
+            })
+            .then(() => navigation.navigate('home'))
+            .catch(() => {
+                Alert.alert('Pedido', 'Não foi possível realizar o pedido.');
+                setSendingOrder(false);
+            });
     }
 
     return (
@@ -88,7 +125,12 @@ export function Order() {
                     </FormRow>
 
                     <Price>Valor de R$ {amount}</Price>
-                    <Button title='Confirmar Pedido' />
+                    <Button
+                        title='Confirmar Pedido'
+                        onPress={handleOrder}
+                        isLoading={sendingOrder}
+                        type='secondary'
+                    />
                 </Form>
             </ScrollView>
         </Container>
