@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { ItemSeparator } from '../../components/ItemSeparator';
 import { OrderCard } from '../../components/OrderCard';
 
 import {
@@ -13,11 +14,16 @@ export function Orders() {
                 <Title>Pedidos Feitos</Title>
             </Header>
             <FlatList
+                key={'_'}
                 data={['1', '2', '3']}
                 keyExtractor={item => item}
                 renderItem={({ item, index }) => (
                     <OrderCard index={index} />
                 )}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 125, paddingHorizontal: 24 }}
+                ItemSeparatorComponent={() => <ItemSeparator />}
             />
         </Container>
     );

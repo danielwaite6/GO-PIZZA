@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import happyEmoji from '../../assets/happy.png';
-
+import { useAuth } from '../../hooks/auth'
 import {
     Container, Greeting, GreetingEmoji, GreetingText, Header, MenuHeader, MenuItemNumber, Title, NewProductButton
 } from './styles';
@@ -13,6 +13,8 @@ import { Search } from '../../components/Search';
 import { ProductCard, ProductProps } from '../../components/ProductCard';
 
 export function Home() {
+
+    const { signOut } = useAuth();
 
     const [pizzas, setPizzas] = useState<ProductProps[]>([]);
     const [search, setSearch] = useState('');
@@ -72,7 +74,7 @@ export function Home() {
                     <GreetingEmoji source={happyEmoji} />
                     <GreetingText>Olá, Admin</GreetingText>
                 </Greeting>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={signOut}>
                     <MaterialIcons name='logout' color={COLORS.TITLE} size={24} />
                 </TouchableOpacity>
             </Header>

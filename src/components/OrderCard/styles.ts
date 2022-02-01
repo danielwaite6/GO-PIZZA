@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components/native';
 
 type ContainerProps = {
-    index: number;
+  index: number;
 }
 
 export type StatusTypesProps = 'Preparando' | 'Pronto' | 'Entregue';
 
 type StatusProps = {
-    status: StatusTypesProps;
+  status: StatusTypesProps;
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
@@ -22,8 +22,8 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 `;
 
 export const Image = styled.Image`
-  width: 140px;
-  height: 140px;
+  width: 104px;
+  height: 104px;
   border-radius: 52px;
 `;
 

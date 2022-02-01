@@ -17,8 +17,8 @@ export function OrderCard({ index, ...rest }: Props) {
             <Description>
                 Mesa 5 º Qntd: 1
             </Description>
-            <StatusContainer status='Preparando'>
-                <StatusLAbel status='Preparando'>Preparando</StatusLAbel>
+            <StatusContainer status='Pronto'>
+                <StatusLAbel status='Pronto'>Preparando</StatusLAbel>
             </StatusContainer>
         </Container>
     );
